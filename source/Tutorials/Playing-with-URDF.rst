@@ -80,6 +80,8 @@ Create directory named "launch"
 9 Create launch file
 ^^^^^^^^^^^^^^^^^^^^
 
+Create inside "launch" directory, the file demo.launch.py and add this.
+
 .. code-block:: C++
 
 import os
@@ -93,10 +95,10 @@ def generate_launch_description():
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
 
-    urdf_file_name = 'r2d2.urdf.xml'
+    urdf_file_name = 'myRobot.urdf.xml'
     urdf = os.path.join(
-        get_package_share_directory('urdf_tutorial'),
-        urdf_file_name)
+        get_package_share_directory('playing_with_urdf'),
+        urdf_file_name )
     with open(urdf, 'r') as infp:
         robot_desc = infp.read()
 
@@ -114,4 +116,65 @@ def generate_launch_description():
             arguments=[urdf]),
     ])
 
+
+10 Edit setup.py
+^^^^^^^^^^^^^^^^
+
+.. code-block:: C++
+
+import os
+from glob import glob
+from setuptools import setup
+from setuptools import find_packages
+
+package_name = 'playing_with_urdf'
+
+setup(
+    name=package_name,
+    version='0.0.0',
+    packages=[package_name],
+    data_files=[
+        ('share/ament_index/resource_index/packages',
+            ['resource/' + package_name]),
+        ('share/' + package_name, ['package.xml']),
+         (os.path.join('share', package_name), glob('launch/*.py')),
+         (os.path.join('share', package_name), glob('urdf/*'))
+    ],
+    install_requires=['setuptools'],
+    zip_safe=True,
+    maintainer='ros2',
+    maintainer_email='inflo@web.de',
+    description='TODO: Package description',
+    license='TODO: License declaration',
+    tests_require=['pytest'],
+    entry_points={
+        'console_scripts': [
+        ],
+    },
+)
+
+11 Build it, run it and watch with rviz2
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+colcon build
+ros2 launch playing_with_urdf demo.launch.py
+
+In another terminal (source install/setup.sh) run "rviz2". Then inside rviz2 add a
+new Display (Ctrl + n) of type "RobotModel". Then in the Displays Panel we add the
+"Description Topic" of the RobotModel, "/robot_description". 
+
+Now we can see our robot and we see that it got no transform from axis to map. Also
+our robot is colored white, but in urdf file we said it should be red. Thats because of
+the transform error.
+
+.. image:: images/rviz2_robot_model_topic.png
+   :target: images/rviz2_robot_model_topic.png
+   :alt: rviz2_robot_model_topic
+
+If we set the "Fixed Frame" of the Global Options Panel to "axis", then we need no
+transform, because we are "axis".
+
+.. image:: images/rviz2_robot_model_axis_frame.png
+   :target: images/rviz2_robot_model_axis_frame.png
+   :alt: rviz2_robot_model_axis_frame
 
