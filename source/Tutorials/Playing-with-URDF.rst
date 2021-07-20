@@ -357,7 +357,19 @@ We add the RobotModel Display and the topic /robot_description. Set Global Optio
 Frame to "axis". Then we move in the joint_state_publisher_gui the slider and see that
 the green link is moving along the limits we setup in the urdf file.
 
+It is moving along the x-axis, because in urdf file we have not set the <axis> option,
+and it defaults to x-axis.
+
 .. image:: images/rviz2_joint_state_publisher.png
    :target: images/rviz2_joint_state_publisher.png
    :alt: rviz2_joint_state_publisher
+
+
+If we add a second "Grid Display" and set the "Reference Frame" of the Grid to "axis2" and
+the color to red. We can see the grid moving with the link as we move the joint. The first grid
+is referenced to <Fixed Frame> which is axis.
+
+.. image:: images/rviz2_joint_state_publisher_grid.png
+   :target: images/rviz2_joint_state_publisher_grid.png
+   :alt: rviz2_joint_state_publisher_grid
 
