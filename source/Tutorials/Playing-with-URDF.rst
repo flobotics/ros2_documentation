@@ -301,3 +301,63 @@ Set Global Options Fixed Frame to our axis and we see both of our robot links. r
 .. image:: images/rviz2_second_link_position-2.png
    :target: images/rviz2_second_link_position-2.png
    :alt: rviz2_second_link_position-2
+   
+   
+16 Make the joint a prismatic one
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+We change the type of the fixed joint to prismatic. At http://wiki.ros.org/urdf/XML/joint
+we see that a prismatic joint requires a <limit>
+
+.. code-block:: C++
+
+   <robot name="myRobot">
+      <link name="axis">
+         <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+               <cylinder radius="0.1" length=".5"/>
+            </geometry>
+            <material name="red">
+               <color rgba="1 0 0 1"/>
+            </material>
+         </visual>
+      </link>
+      
+      <link name="axis2">
+         <visual>
+            <origin xyz="0 0 0.5" rpy="0 0 0"/>
+            <geometry>
+               <cylinder radius="0.1" length=".5"/>
+            </geometry>
+            <material name="green">
+               <color rgba="0 1 0 1"/>
+            </material>
+         </visual>
+      </link>
+      
+      <joint name="axis_to_axis2" type="prismatic">
+         <parent link="axis"/>
+         <child link="axis2"/>
+         <limit lower="0" upper="0.5" effort="1" velocity="1"/> 
+      </joint>
+   </robot>
+
+
+17 Build, run, watch, move with joint_state_publisher_gui
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+colcon build
+ros2 launch playing_with_urdf demo.launch.py
+rviz2
+ros2 run joint_state_publisher_gui joint_state_publisher_gui
+
+
+We add the RobotModel Display and the topic /robot_description. Set Global Options Fixed
+Frame to "axis". Then we move in the joint_state_publisher_gui the slider and see that
+the green link is moving along the limits we setup in the urdf file.
+
+.. image:: images/rviz2_joint_state_publisher.png
+   :target: images/rviz2_joint_state_publisher.png
+   :alt: rviz2_joint_state_publisher
+
