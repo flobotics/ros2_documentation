@@ -373,3 +373,63 @@ is referenced to <Fixed Frame> which is axis.
    :target: images/rviz2_joint_state_publisher_grid.png
    :alt: rviz2_joint_state_publisher_grid
 
+
+18 Add floating joint
+^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: C++
+
+   <robot name="myRobot">
+      <link name="axis">
+         <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+               <cylinder radius="0.1" length=".5"/>
+            </geometry>
+            <material name="red">
+               <color rgba="1 0 0 1"/>
+            </material>
+         </visual>
+      </link>
+      
+      <link name="axis2">
+         <visual>
+            <origin xyz="0 0 0.5" rpy="0 0 0"/>
+            <geometry>
+               <cylinder radius="0.1" length=".5"/>
+            </geometry>
+            <material name="green">
+               <color rgba="0 1 0 1"/>
+            </material>
+         </visual>
+      </link>
+      
+      <joint name="axis_to_axis2" type="floating">
+         <origin xyz="0 0 .5" rpy="0 0 0"/>
+         <parent link="axis"/>
+         <child link="axis2"/>
+         <limit lower="0" upper="0.5" effort="1" velocity="1"/> 
+         <calibration rising="0.0"/>
+            <dynamics damping="0.0" friction="0.0"/>
+         <safety_controller k_velocity="10" k_position="15" soft_lower_limit="-2.0" soft_upper_limit="0.5" />
+      </joint>
+   </robot>
+
+
+
+19 Build, run, watch, use static_transform_publisher
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block::
+   colcon build
+   ros2 launch playing_with_urdf demo.launch.py
+   rviz2
+   ros2 run tf2_ros static_transform_publisher 1 0 0 0 0 0 1 axis axis2
+   
+   
+First in rviz2 we would see the transform errors in our RobotModel. If we publish a transform
+with "ros2 run tf2_ros static_transform_publisher 1 0 0 0 0 0 1 axis axis2" we see in rviz2,
+that one link has moved and the transforms are OK.
+   
+
+
