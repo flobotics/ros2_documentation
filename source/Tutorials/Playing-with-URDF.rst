@@ -57,19 +57,19 @@ Write inside this
 
 .. code-block:: C++
 
-<robot name="myRobot">
-   <link name="axis">
-      <visual>
-         <origin xyz="0 0 0" rpy="0 0 0"/>
-         <geometry>
-            <cylinder radius="0.1" length=".5"/>
-         </geometry>
-         <material name="red">
-            <color rgba="1 0 0 1"/>
-         </material>
-      </visual>
-   </link>
-</robot>
+   <robot name="myRobot">
+      <link name="axis">
+         <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+               <cylinder radius="0.1" length=".5"/>
+            </geometry>
+            <material name="red">
+               <color rgba="1 0 0 1"/>
+            </material>
+         </visual>
+      </link>
+   </robot>
 
 
 8 Create launch directory
@@ -120,7 +120,7 @@ Create inside "launch" directory, the file demo.launch.py and add this.
 10 Edit setup.py
 ^^^^^^^^^^^^^^^^
 
-::
+.. code-block:: C++
 
    import os
    from glob import glob
@@ -178,3 +178,126 @@ transform, because we are "axis".
    :target: images/rviz2_robot_model_axis_frame.png
    :alt: rviz2_robot_model_axis_frame
 
+
+12 Lets add another link to our robot
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Inside myRobot.urdf.xml we add another link and give it the green color.
+
+.. code-block:: C++
+
+   <robot name="myRobot">
+      <link name="axis">
+         <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+               <cylinder radius="0.1" length=".5"/>
+            </geometry>
+            <material name="red">
+               <color rgba="1 0 0 1"/>
+            </material>
+         </visual>
+      </link>
+      
+      <link name="axis2">
+         <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+               <cylinder radius="0.1" length=".5"/>
+            </geometry>
+            <material name="green">
+               <color rgba="0 1 0 1"/>
+            </material>
+         </visual>
+      </link>
+      
+      <joint name="axis_to_axis2" type="fixed">
+         <parent link="axis"/>
+         <child link="axis2"/>
+      </joint>
+   </robot>
+
+We need a <joint>, which tells which one is the root_link.
+
+13 Build, run, watch
+^^^^^^^^^^^^^^^^^^^^
+
+colcon build
+ros2 launch playing_with_urdf demo.launch.py
+rviz2
+
+We add the RobotModel Display and there the topic "/robot_description" to see our robot.
+
+.. image:: images/rviz2_add_second_link_topic.png
+   :target: images/rviz2_add_second_link_topic.png
+   :alt: rviz2_add_second_link_topic
+   
+   
+When we set the Global Options Fixed Frame to our own axis, our robot gets colored. But
+we see only one color, that is because we have placed both links exactly at the same position.
+   
+.. image:: images/rviz2_add_second_link_2.png
+   :target: images/rviz2_add_second_link_2.png
+   :alt: rviz2_add_second_link_2
+
+
+14 Change robot link position in urdf file
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+We change the origin of the axis2 link.
+
+.. code-block:: C++
+
+   <robot name="myRobot">
+      <link name="axis">
+         <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+               <cylinder radius="0.1" length=".5"/>
+            </geometry>
+            <material name="red">
+               <color rgba="1 0 0 1"/>
+            </material>
+         </visual>
+      </link>
+      
+      <link name="axis2">
+         <visual>
+            <origin xyz="0 0 0.5" rpy="0 0 0"/>
+            <geometry>
+               <cylinder radius="0.1" length=".5"/>
+            </geometry>
+            <material name="green">
+               <color rgba="0 1 0 1"/>
+            </material>
+         </visual>
+      </link>
+      
+      <joint name="axis_to_axis2" type="fixed">
+         <parent link="axis"/>
+         <child link="axis2"/>
+      </joint>
+   </robot>
+
+
+15 Build , run , watch
+^^^^^^^^^^^^^^^^^^^^^^
+
+colcon build
+ros2 launch playing_with_urdf demo.launch.py
+rviz2
+
+
+We add RobotModel Display and set topic to /robot_description. We only see one link
+of our robot and the transform errors.
+
+
+.. image:: images/rviz2_second_link_position1.png
+   :target: images/rviz2_second_link_position1.png
+   :alt: rviz2_second_link_position1
+   
+Set Global Options Fixed Frame to our axis and we see both of our robot links. red and green.  
+ 
+.. image:: images/rviz2_second_link_position-2.png
+   :target: images/rviz2_second_link_position-2.png
+   :alt: rviz2_second_link_position-2
