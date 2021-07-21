@@ -17,14 +17,18 @@ Some stuff about launch file.
    
    executable  The e.g. node of the previously named package to use
    
+   name        name='MyName'     If you run a node with "-r __node:=MyName". https://docs.ros.org/en/galactic/Guides/Node-arguments.html
+   
    output      "screen" means ??
 
    namespace   If you want to run two robots with the same urdf file, use e.g. "test", then
                when running "ros2 topic list" there are "/test/*" topics.
    
-   remappings  Give e.g. a topic another name
+   remappings  Give e.g. a topic another name 
    
-   parameters  To get the parameters of a node, run "ros2 param list" when you the node is running.
+   parameters  https://docs.ros.org/en/galactic/Tutorials/Parameters/Understanding-ROS2-Parameters.html
+   
+               To get the parameters of a node, run "ros2 param list" when the node is running.
                E.g. the output for robot_state_publisher is:
                
                /robot_state_publisher:
@@ -53,7 +57,7 @@ Some stuff about launch file.
                The bad thing is, we dont know that we should write "false" instead of "False".(need to check)
                
    
-   arguments
+   arguments   https://docs.ros.org/en/galactic/Guides/Node-arguments.html
 
    
 2 Node
