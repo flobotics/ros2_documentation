@@ -25,6 +25,7 @@ Some stuff about launch file.
                when running "ros2 topic list" there are "/test/*" topics.
    
    remappings  Give e.g. a topic another name 
+               https://roboticsbackend.com/ros2-launch-file-example/
    
    parameters  https://docs.ros.org/en/galactic/Tutorials/Parameters/Understanding-ROS2-Parameters.html
    
