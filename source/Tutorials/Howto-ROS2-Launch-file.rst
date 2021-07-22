@@ -59,6 +59,10 @@ Some stuff about launch file.
                
    
    arguments   https://docs.ros.org/en/galactic/Guides/Node-arguments.html
+   
+               [ERROR] [joint_state_publisher_gui-5]: process has died [pid 68176, exit code -2, cmd '/opt/ros/galactic/lib/joint_state_publisher_gui/joint_state_publisher_gui --ros-args -r __node:=joint_state_publisher_gui'].
+               [ERROR] [joint_state_publisher_gui-6]: process has died [pid 68178, exit code -2, cmd '/opt/ros/galactic/lib/joint_state_publisher_gui/joint_state_publisher_gui --ros-args -r __node:=joint_state_publisher_gui2 -r __ns:=/test'].
+               
 
    
 2 Node
